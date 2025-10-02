@@ -1,0 +1,24 @@
+{
+  "name": "readai-website",
+  "version": "1.0.0",
+  "description": "AI-Powered Reading Insights - Get instant book summaries and recommendations",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'Build complete - static site ready'",
+    "deploy": "echo 'Deploy to your hosting platform'"
+  },
+  "keywords": [
+    "ai",
+    "reading",
+    "books",
+    "summaries",
+    "insights",
+    "recommendations"
+  ],
+  "author": "ReadAI Team",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}

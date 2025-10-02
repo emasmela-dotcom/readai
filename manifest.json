@@ -1,0 +1,25 @@
+{
+  "name": "ReadAI - AI-Powered Reading Insights",
+  "short_name": "ReadAI",
+  "description": "Get instant book summaries, analysis, and recommendations powered by artificial intelligence",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik05NiA0OEM3MS4yIDQ4IDUyIDY3LjIgNTIgOTJWNzJDNTEuMiA2Ny4yIDU2IDYyLjQgNjEuNiA2Mi40SDk2QzEwMS42IDYyLjQgMTA2LjQgNjcuMiAxMDYuNCA3MlY5MkMxMDYuNCA5Ni44IDEwMS42IDEwMS42IDk2IDEwMS42SDYxLjZDNjcuMiAxMDEuNiA3MiAxMDYuNCA3MiAxMTJIMTIwQzEyNS42IDExMiAxMzAuNCAxMDcuMiAxMzAuNCAxMDEuNlY5MkMxMzAuNCA2Ny4yIDExMS4yIDQ4IDg2IDQ4SDk2WiIgZmlsbD0id2hpdGUiLz4KPHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik05NiA0OEM3MS4yIDQ4IDUyIDY3LjIgNTIgOTJWNzJDNTEuMiA2Ny4yIDU2IDYyLjQgNjEuNiA2Mi40SDk2QzEwMS42IDYyLjQgMTA2LjQgNjcuMiAxMDYuNCA3MlY5MkMxMDYuNCA5Ni44IDEwMS42IDEwMS42IDk2IDEwMS42SDYxLjZDNjcuMiAxMDEuNiA3MiAxMDYuNCA3MiAxMTJIMTIwQzEyNS42IDExMiAxMzAuNCAxMDcuMiAxMzAuNCAxMDEuNlY5MkMxMzAuNCA2Ny4yIDExMS4yIDQ4IDg2IDQ4SDk2WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik0yNTYgMTI4QzE4OS4zIDEyOCAxMzYgMTgxLjMgMTM2IDI0OFYxOTJDMzUuMiAxODcuMiAxNDQgMTgyLjQgMTY0LjQgMTgyLjRIMjU2QzI3MC42IDE4Mi40IDI4MS42IDE4Ny4yIDI4MS42IDE5MlYyNDhDMjgxLjYgMjU4LjQgMjcwLjYgMjcxLjYgMjU2IDI3MS42SDE2NC40QzE3MC4yIDI3MS42IDE3NiAyNzguNCAxNzYgMjg4SDMzNkMzNDEuNiAyODggMzQ0IDI4My4yIDM0NCAyNzcuNlYyNDhDMzQ0IDE4MS4zIDI5MC43IDEyOCAyMjQgMTI4SDI1NloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPg==",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["education", "productivity", "books"],
+  "lang": "en",
+  "dir": "ltr"
+}
