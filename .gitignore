@@ -1,0 +1,24 @@
+# Vercel
+.vercel
+
+# Sensitive files - DO NOT COMMIT
+SUPABASE-KEYS-SAVED.txt
+*-keys.txt
+*.env
+.env.local
+.env.production
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.backup
+*.bak
+*.bak2
+*.pre-format
+
+# Test files (optional - can be included if you want)
+modal-test.html
+syntax-test.html
+test-book-covers-integration.html

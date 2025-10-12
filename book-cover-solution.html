@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Cover Solution - ReadAI</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .book-test { display: inline-block; margin: 10px; text-align: center; }
+        .book-cover { width: 128px; height: 192px; border: 1px solid #ccc; margin-bottom: 5px; }
+        .method { background: #f0f0f0; padding: 15px; margin: 20px 0; border-radius: 8px; }
+        code { background: #e0e0e0; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>📚 ReadAI Book Cover Solution</h1>
+    
+    <div class="method">
+        <h2>✅ Solution: Use Google Books API</h2>
+        <p><strong>Pros:</strong> Free, high quality, automatic, no upload needed</p>
+        <p><strong>How it works:</strong> Fetch covers using book title + author</p>
+    </div>
+
+    <h3>Test: Fetching Real Book Covers</h3>
+    <div id="bookResults"></div>
+
+    <script>
+        async function fetchBookCover(title, author) {
+            try {
+                const query = encodeURIComponent(`${title} ${author}`);
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`);
+                const data = await response.json();
+                
+                if (data.items && data.items[0]?.volumeInfo?.imageLinks) {
+                    // Get the thumbnail (or larger if available)
+                    return data.items[0].volumeInfo.imageLinks.thumbnail ||
+                           data.items[0].volumeInfo.imageLinks.smallThumbnail;
+                }
+                return null;
+            } catch (error) {
+                console.error('Error fetching cover:', error);
+                return null;
+            }
+        }
+
+        // Test with popular books
+        const testBooks = [
+            { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', gradient: 'linear-gradient(135deg, #f59e0b 0%, #c2410c 100%)' },
+            { title: 'To Kill a Mockingbird', author: 'Harper Lee', gradient: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)' },
+            { title: '1984', author: 'George Orwell', gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' },
+            { title: 'Pride and Prejudice', author: 'Jane Austen', gradient: 'linear-gradient(135deg, #a855f7 0%, #9333ea 100%)' },
+        ];
+
+        const resultsDiv = document.getElementById('bookResults');
+
+        testBooks.forEach(async (book) => {
+            const bookDiv = document.createElement('div');
+            bookDiv.className = 'book-test';
+            
+            const coverDiv = document.createElement('div');
+            coverDiv.className = 'book-cover';
+            coverDiv.style.background = book.gradient;
+            coverDiv.innerHTML = '<p style="padding-top:80px;color:white;">Loading...</p>';
+            
+            const titleDiv = document.createElement('div');
+            titleDiv.innerHTML = `<strong>${book.title}</strong><br><small>${book.author}</small>`;
+            
+            bookDiv.appendChild(coverDiv);
+            bookDiv.appendChild(titleDiv);
+            resultsDiv.appendChild(bookDiv);
+            
+            // Fetch real cover
+            const coverUrl = await fetchBookCover(book.title, book.author);
+            if (coverUrl) {
+                coverDiv.style.backgroundImage = `url('${coverUrl}')`;
+                coverDiv.style.backgroundSize = 'cover';
+                coverDiv.innerHTML = '';
+            } else {
+                coverDiv.innerHTML = '<p style="padding-top:80px;color:white;font-size:12px;">Using gradient</p>';
+            }
+        });
+    </script>
+
+    <div class="method">
+        <h2>💡 Implementation Steps:</h2>
+        <ol>
+            <li>Add the <code>fetchBookCover()</code> function to your index.html</li>
+            <li>When displaying books, try to fetch real covers first</li>
+            <li>Fall back to gradients if cover not found</li>
+            <li>Cache results to avoid repeated API calls</li>
+        </ol>
+    </div>
+
+    <div class="method">
+        <h2>🔧 For Database Population:</h2>
+        <p>You can pre-fetch covers and store URLs in the <code>cover_image_url</code> field</p>
+        <p>Or fetch them dynamically when displaying books (recommended for MVP)</p>
+    </div>
+
+</body>
+</html>
