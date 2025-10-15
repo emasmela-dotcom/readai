@@ -4,9 +4,9 @@
 // Import the book database
 const { comprehensiveBookDatabase, getAllBooks } = require('./book-database.js');
 
-// Supabase configuration (use your actual credentials)
-const SUPABASE_URL = 'https://dhgadfghpsomwwjcigla.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRoZ2FkZmdocHNvbXd3amNpZ2xhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2NTc0MDEsImV4cCI6MjA3NTIzMzQwMX0.-ySlHh5ISa4eC2o7Ak60g9WZlWF-ZsIYWIwd9ljDjzc';
+// Security: API keys moved to environment variables
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://dhgadfghpsomwwjcigla.supabase.co';
+const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'PLACEHOLDER_KEY_REMOVED_FOR_SECURITY';
 
 // Initialize Supabase client
 const { createClient } = require('@supabase/supabase-js');
