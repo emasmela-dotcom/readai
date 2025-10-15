@@ -4,9 +4,9 @@
 // Import the book database
 const { comprehensiveBookDatabase, getAllBooks } = require('./book-database.js');
 
-// Security: API keys moved to environment variables
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://dhgadfghpsomwwjcigla.supabase.co';
-const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'PLACEHOLDER_KEY_REMOVED_FOR_SECURITY';
+// Security: Using new secure API keys
+const SUPABASE_URL = 'https://ycjmdtitrmxcnekntjcj.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_hLt2hs3ApCQdW8WC-EX4QQ_ePx7W6S6';
 
 // Initialize Supabase client
 const { createClient } = require('@supabase/supabase-js');
