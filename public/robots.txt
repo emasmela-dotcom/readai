@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://readai-ten.vercel.app/sitemap.xml
