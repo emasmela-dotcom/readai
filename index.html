@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+    <!-- Neon database integration - using API endpoints instead of direct client -->
     
     <!-- Gumroad Overlay Script -->
     <script src="https://gumroad.com/js/gumroad.js"></script>
@@ -2383,9 +2383,12 @@ Marcus paused, his finger hovering over the activation button. He had spent year
                 
                 // Real implementation would send actual email:
                 /*
-                const { data, error } = await supabase.auth.resetPasswordForEmail(email);
-                if (error) throw error;
-                return { success: true, data };
+                const result = await neonApi('/auth/reset-password', {
+                    method: 'POST',
+                    body: { email }
+                });
+                if (result.error) throw new Error(result.error);
+                return { success: true, data: result.data };
                 */
             } catch (error) {
                 return { success: false, error: error.message };
@@ -6878,24 +6881,33 @@ Marcus paused, his finger hovering over the activation button. He had spent year
         }
     </script>
     <script>
-        // Supabase Configuration
-        // Security: Using new secure API keys
-        const SUPABASE_URL = 'https://ycjmdtitrmxcnekntjcj.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_hLt2hs3ApCQdW8WC-EX4QQ_ePx7W6S6';
+        // Neon Configuration
+        // Using API endpoints to connect to Neon database
+        const NEON_API_URL = '/api/neon'; // Your Neon API endpoint
         
-        // Initialize Supabase client
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Helper function to call Neon API
+        async function neonApi(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${NEON_API_URL}${endpoint}`, {
+                    method: options.method || 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    body: options.body ? JSON.stringify(options.body) : undefined
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('Neon API error:', error);
+                throw error;
+            }
+        }
         
         // Database integration functions
         async function loadBooks() {
             try {
-                const { data, error } = await supabase
-                    .from('books')
-                    .select('*')
-                    .order('title');
-                
-                if (error) throw error;
-                return data;
+                const result = await neonApi('/books?order=title');
+                return result.data || [];
             } catch (error) {
                 console.error('Error loading books:', error);
                 return [];
@@ -6904,13 +6916,8 @@ Marcus paused, his finger hovering over the activation button. He had spent year
         
         async function loadForums() {
             try {
-                const { data, error } = await supabase
-                    .from('forums')
-                    .select('*')
-                    .order('title');
-                
-                if (error) throw error;
-                return data;
+                const result = await neonApi('/forums?order=title');
+                return result.data || [];
             } catch (error) {
                 console.error('Error loading forums:', error);
                 return [];
@@ -6919,13 +6926,8 @@ Marcus paused, his finger hovering over the activation button. He had spent year
         
         async function loadChallenges() {
             try {
-                const { data, error } = await supabase
-                    .from('reading_challenges')
-                    .select('*')
-                    .order('title');
-                
-                if (error) throw error;
-                return data;
+                const result = await neonApi('/challenges?order=title');
+                return result.data || [];
             } catch (error) {
                 console.error('Error loading challenges:', error);
                 return [];
@@ -6936,9 +6938,9 @@ Marcus paused, his finger hovering over the activation button. He had spent year
         async function saveReadingProgress(userId, bookId, currentPage, totalPages) {
             try {
                 const progressPercentage = (currentPage / totalPages) * 100;
-                const { data, error } = await supabase
-                    .from('reading_progress')
-                    .upsert({
+                const result = await neonApi('/reading-progress', {
+                    method: 'POST',
+                    body: {
                         user_id: userId,
                         book_id: bookId,
                         current_page: currentPage,
@@ -6946,10 +6948,10 @@ Marcus paused, his finger hovering over the activation button. He had spent year
                         progress_percentage: progressPercentage,
                         last_read_at: new Date().toISOString(),
                         is_currently_reading: true
-                    });
+                    }
+                });
                 
-                if (error) throw error;
-                return { success: true, data };
+                return { success: true, data: result.data };
             } catch (error) {
                 console.error('Error saving reading progress:', error);
                 return { success: false, error: error.message };
@@ -6958,21 +6960,8 @@ Marcus paused, his finger hovering over the activation button. He had spent year
         
         async function getReadingProgress(userId) {
             try {
-                const { data, error } = await supabase
-                    .from('reading_progress')
-                    .select(`
-                        *,
-                        books (
-                            title,
-                            author,
-                            cover_image_url
-                        )
-                    `)
-                    .eq('user_id', userId)
-                    .eq('is_currently_reading', true);
-                
-                if (error) throw error;
-                return data;
+                const result = await neonApi(`/reading-progress?user_id=${userId}&is_currently_reading=true`);
+                return result.data || [];
             } catch (error) {
                 console.error('Error loading reading progress:', error);
                 return [];
@@ -6981,17 +6970,18 @@ Marcus paused, his finger hovering over the activation button. He had spent year
         
         async function startReadingSession(userId, bookId, sessionType) {
             try {
-                const { data, error } = await supabase
-                    .from('reading_sessions')
-                    .insert({
+                const result = await neonApi('/reading-sessions', {
+                    method: 'POST',
+                    body: {
                         user_id: userId,
                         book_id: bookId,
                         session_type: sessionType,
                         started_at: new Date().toISOString()
-                    });
+                    }
+                });
                 
-                if (error) throw error;
-                return { success: true, data };
+                if (result.error) throw new Error(result.error);
+                return { success: true, data: result.data };
             } catch (error) {
                 console.error('Error starting reading session:', error);
                 return { success: false, error: error.message };
@@ -7026,14 +7016,14 @@ Marcus paused, his finger hovering over the activation button. He had spent year
                     message: 'Demo account created successfully! You can now access all member features.'
                 };
                 
-                // Real Supabase implementation (commented out for demo):
+                // Real Neon API implementation (commented out for demo):
                 /*
-                const { data, error } = await supabase.auth.signUp({
-                    email: email,
-                    password: password
+                const result = await neonApi('/auth/signup', {
+                    method: 'POST',
+                    body: { email, password }
                 });
-                if (error) throw error;
-                return { success: true, data };
+                if (result.error) throw new Error(result.error);
+                return { success: true, data: result.data };
                 */
             } catch (error) {
                 return { success: false, error: error.message };
@@ -7077,14 +7067,14 @@ Marcus paused, his finger hovering over the activation button. He had spent year
                     };
                 }
                 
-                // Real Supabase implementation (commented out for demo):
+                // Real Neon API implementation (commented out for demo):
                 /*
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
+                const result = await neonApi('/auth/signin', {
+                    method: 'POST',
+                    body: { email, password }
                 });
-                if (error) throw error;
-                return { success: true, data };
+                if (result.error) throw new Error(result.error);
+                return { success: true, data: result.data };
                 */
             } catch (error) {
                 return { success: false, error: error.message };
@@ -7099,10 +7089,12 @@ Marcus paused, his finger hovering over the activation button. He had spent year
                 
                 return { success: true };
                 
-                // Real Supabase implementation (commented out for demo):
+                // Real Neon API implementation (commented out for demo):
                 /*
-                const { error } = await supabase.auth.signOut();
-                if (error) throw error;
+                const result = await neonApi('/auth/signout', {
+                    method: 'POST'
+                });
+                if (result.error) throw new Error(result.error);
                 return { success: true };
                 */
             } catch (error) {
@@ -7135,14 +7127,12 @@ Marcus paused, his finger hovering over the activation button. He had spent year
                 
                 // Real Google OAuth implementation (commented out for demo):
                 /*
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: 'google',
-                    options: {
-                        redirectTo: window.location.origin
-                    }
+                const result = await neonApi('/auth/google', {
+                    method: 'POST',
+                    body: { redirectTo: window.location.origin }
                 });
-                if (error) throw error;
-                return { success: true, data };
+                if (result.error) throw new Error(result.error);
+                return { success: true, data: result.data };
                 */
             } catch (error) {
                 return { success: false, error: error.message };
@@ -7151,7 +7141,7 @@ Marcus paused, his finger hovering over the activation button. He had spent year
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('ReadAI connected to Supabase database!');
+            console.log('ReadAI connected to Neon database!');
             
             // Load data from database
             const books = await loadBooks();
@@ -7471,7 +7461,7 @@ Marcus paused, his finger hovering over the activation button. He had spent year
             }
             
             // Load reading progress when user logs in (demo mode - disabled)
-            // supabase.auth.onAuthStateChange(async (event, session) => {
+            // neonApi('/auth/state-change', { method: 'GET' }).then(async (result) => {
             //     if (event === 'SIGNED_IN' && session) {
             //         authBtn.textContent = 'Account';
             //         authBtn.style.display = 'none';

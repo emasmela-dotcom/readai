@@ -1,5 +1,5 @@
 {
-  "name": "readai-website",
+  "name": "readai",
   "version": "1.0.0",
   "description": "AI-Powered Reading Insights - Get instant book summaries and recommendations",
   "main": "index.html",
@@ -19,6 +19,8 @@
   ],
   "author": "ReadAI Team",
   "license": "MIT",
-  "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.0"
+  },
+  "devDependencies": {}
 }
